@@ -54,6 +54,14 @@ info "Updating system..."
 sudo pacman -Syu --noconfirm
 
 # =============================================================================
+# Enable multilib
+# =============================================================================
+info "Enabling multilib repository..."
+sudo sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
+sudo sed -i '/\[multilib\]/{n;s/^#Include/Include/}' /etc/pacman.conf
+sudo pacman -Sy --noconfirm
+
+# =============================================================================
 # Base packages
 # =============================================================================
 info "Installing base packages..."
@@ -65,7 +73,8 @@ sudo pacman -S --noconfirm \
     xdg-user-dirs \
     power-profiles-daemon \
     fish \
-    kitty
+    kitty \
+    linux-headers
 
 # =============================================================================
 # paccache timer
