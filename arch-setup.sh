@@ -74,13 +74,20 @@ sudo pacman -S --noconfirm \
     power-profiles-daemon \
     fish \
     kitty \
-    linux-headers
+    linux-headers \
+    networkmanager
 
 # =============================================================================
 # paccache timer
 # =============================================================================
 info "Enabling paccache timer..."
 sudo systemctl enable --now paccache.timer
+
+# =============================================================================
+# NetworkManager
+# =============================================================================
+info "Enabling NetworkManager..."
+sudo systemctl enable --now NetworkManager
 
 # =============================================================================
 # power-profiles-daemon
@@ -186,6 +193,62 @@ paru -S --noconfirm lact
 
 info "Enabling lactd..."
 sudo systemctl enable --now lactd
+
+# =============================================================================
+# Environment configs
+# =============================================================================
+info "Writing gaming.conf..."
+mkdir -p ~/.config/environment.d
+cat > ~/.config/environment.d/gaming.conf <<'EOF'
+### OpenGL
+__GL_SYNC_TO_VBLANK=0
+__GL_MaxFramesAllowed=1
+__GL_GSYNC_ALLOWED=1
+__GL_VRR_ALLOWED=1
+__GL_SHADER_DISK_CACHE_SIZE=12000000000
+### Proton / Wayland
+PROTON_ENABLE_WAYLAND=1
+PROTON_ENABLE_NVAPI=1
+PROTON_DLSS_UPGRADE=1
+PROTON_USE_NTSYNC=1
+### NTSYNC
+WINEFSYNC=0
+WINEESYNC=0
+### DLSS
+DXVK_NVAPI_DRS_NGX_DLSS_SR_OVERRIDE=on
+DXVK_NVAPI_DRS_NGX_DLSS_SR_MODE=custom
+DXVK_NVAPI_DRS_NGX_DLSS_SR_OVERRIDE_SCALING_RATIO=50
+DXVK_NVAPI_DRS_NGX_DLSS_SR_OVERRIDE_RENDER_PRESET_SELECTION=render_preset_m
+### Frame Generation
+DXVK_NVAPI_DRS_NGX_DLSSG_MULTI_FRAME_COUNT=3
+### Frame Rate Cap
+DXVK_FRAME_RATE=237
+VKD3D_FRAME_RATE=237
+### HDR
+DXVK_HDR=1
+PROTON_ENABLE_HDR=1
+ENABLE_HDR_WSI=1
+DXVK_NVAPI_SET_NGX_DEBUG_OPTIONS="DLSSIndicator=1024"
+EOF
+
+info "Writing nvidia.conf..."
+cat > ~/.config/environment.d/nvidia.conf <<'EOF'
+### Vulkan / Wayland / Nvidia
+GBM_BACKEND=nvidia-drm
+__GLX_VENDOR_LIBRARY_NAME=nvidia
+LIBVA_DRIVER_NAME=nvidia
+### Electron
+ELECTRON_OZONE_PLATFORM_HINT=auto
+EOF
+
+info "Writing chrome-flags.conf..."
+cat > ~/.config/chrome-flags.conf <<'EOF'
+--ozone-platform-hint=auto
+--enable-features=WaylandLinuxDrmSyncobj
+--enable-gpu-rasterization
+--enable-zero-copy
+--ignore-gpu-blocklist
+EOF
 
 # =============================================================================
 # Done
