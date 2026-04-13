@@ -87,6 +87,13 @@ Minimal GNOME 50 setup.
 - xdg-desktop-portal-gnome, gnome-keyring, gvfs
 - extension-manager (AUR)
 
+### cosmic-setup.sh
+Minimal COSMIC Desktop 1.0.9 setup with cosmic-greeter.
+- Vollständiges COSMIC ohne cosmic-store
+- cosmic-session, compositor, panel, applets, launcher
+- cosmic-files, cosmic-text-editor, cosmic-terminal
+- cosmic-greeter als Display Manager
+
 ### hyprland-setup.sh
 Minimal Hyprland setup with Quickshell bar.
 - Workspace widgets, centered clock, system tray, power menu
