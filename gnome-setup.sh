@@ -35,13 +35,8 @@ sudo pacman -S --noconfirm \
     gst-plugin-pipewire \
     xdg-desktop-portal-gnome \
     gnome-keyring \
-    gvfs
-
-# =============================================================================
-# AUR packages
-# =============================================================================
-info "Installing AUR packages..."
-paru -S --noconfirm extension-manager
+    gvfs \
+    extension-manager
 
 # =============================================================================
 # Enable GDM
