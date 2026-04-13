@@ -69,12 +69,13 @@ screenshot-path "~/Bilder/Screenshots/Screenshot_%Y-%m-%d_%H-%M-%S.png"
 // =============================================================================
 // Noctalia Shell
 // =============================================================================
-spawn-at-startup "noctalia-qs" "-c" "noctalia-shell"
+spawn-at-startup "qs" "-c" "noctalia-shell"
 
 // =============================================================================
 // Environment
 // =============================================================================
 environment {
+    QT_QPA_PLATFORM "wayland"
     QT_QPA_PLATFORMTHEME "qt6ct"
 }
 
@@ -100,13 +101,13 @@ input {
 // =============================================================================
 binds {
     // Applications
-    Mod+Return { spawn "kitty"; }
+    Mod+Return { spawn "alacritty"; }
     Mod+B { spawn "firefox"; }
     Mod+E { spawn "nautilus"; }
 
     // Noctalia IPC
     Mod+D { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
-    Mod+L { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
+    Mod+Alt+L { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
     Mod+Shift+Q { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
     Mod+C { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
 
@@ -121,20 +122,12 @@ binds {
     Mod+Right { focus-column-right; }
     Mod+Up { focus-window-up; }
     Mod+Down { focus-window-down; }
-    Mod+H { focus-column-left; }
-    Mod+L { focus-column-right; }
-    Mod+K { focus-window-up; }
-    Mod+J { focus-window-down; }
 
     // Move windows
     Mod+Shift+Left { move-column-left; }
     Mod+Shift+Right { move-column-right; }
     Mod+Shift+Up { move-window-up; }
     Mod+Shift+Down { move-window-down; }
-    Mod+Shift+H { move-column-left; }
-    Mod+Shift+L { move-column-right; }
-    Mod+Shift+K { move-window-up; }
-    Mod+Shift+J { move-window-down; }
 
     // Workspaces
     Mod+1 { focus-workspace 1; }
