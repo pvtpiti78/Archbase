@@ -28,8 +28,9 @@ echo ""
 echo -e "  ${GREEN}1)${NC} KDE Plasma (minimal)"
 echo -e "  ${GREEN}2)${NC} GNOME 50 (minimal)"
 echo -e "  ${GREEN}3)${NC} Hyprland + Quickshell"
+echo -e "  ${GREEN}4)${NC} Niri + Noctalia"
 echo ""
-read -rp "Choose your DE [1-3]: " choice
+read -rp "Choose your DE [1-4]: " choice
 
 case "$choice" in
     1)
@@ -47,7 +48,12 @@ case "$choice" in
         chmod +x "$SCRIPT_DIR/hyprland-setup.sh"
         "$SCRIPT_DIR/hyprland-setup.sh"
         ;;
+    4)
+        info "Starting Niri + Noctalia setup..."
+        chmod +x "$SCRIPT_DIR/niri-setup.sh"
+        "$SCRIPT_DIR/niri-setup.sh"
+        ;;
     *)
-        error "Invalid choice. Run the script again and select 1, 2 or 3."
+        error "Invalid choice. Run the script again and select 1, 2, 3 or 4."
         ;;
 esac

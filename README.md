@@ -91,6 +91,14 @@ Minimal GNOME 50 setup.
 Minimal Hyprland setup with Quickshell bar.
 - Workspace widgets, centered clock, system tray, power menu
 
+### niri-setup.sh
+Minimal Niri + Noctalia setup with ly display manager.
+- niri (scrollable-tiling Wayland compositor)
+- xwayland-satellite for X11 app support
+- noctalia-shell (AUR) — pulls noctalia-qs automatically
+- ly display manager
+- Niri config with Noctalia autostart
+
 ## Requirements
 
 - Fresh Arch Linux install (archinstall minimal, no DE)
