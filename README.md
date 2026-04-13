@@ -66,6 +66,10 @@ Base system setup. Run this first on every install regardless of DE choice.
 **Environment configs**
 - `~/.config/environment.d/gaming.conf` — Proton / DLSS SR+RR / Dynamic MFG / HDR / NTSYNC / VRR
 - `~/.config/environment.d/nvidia.conf` — Nvidia Wayland / Vulkan / Electron / Firefox HW decode
+- `~/.config/fish/config.fish` — Starship prompt, Fastfetch on start, aliases
+- `~/.config/starship.toml` — Tokyo Night prompt theme
+- `~/.config/kitty/kitty.conf` — Tokyo Night theme, JetBrains Mono Nerd, Fish shell
+- `~/.config/fastfetch/config.jsonc` — Arch logo, system info
 
 ### install-de.sh
 Interactive DE installer. Run after `arch-setup.sh`.
