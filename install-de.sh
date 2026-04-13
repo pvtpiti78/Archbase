@@ -29,8 +29,9 @@ echo -e "  ${GREEN}1)${NC} KDE Plasma (minimal)"
 echo -e "  ${GREEN}2)${NC} GNOME 50 (minimal)"
 echo -e "  ${GREEN}3)${NC} Hyprland + Quickshell"
 echo -e "  ${GREEN}4)${NC} Niri + Noctalia"
+echo -e "  ${GREEN}5)${NC} COSMIC Desktop"
 echo ""
-read -rp "Choose your DE [1-4]: " choice
+read -rp "Choose your DE [1-5]: " choice
 
 case "$choice" in
     1)
@@ -53,7 +54,12 @@ case "$choice" in
         chmod +x "$SCRIPT_DIR/niri-setup.sh"
         "$SCRIPT_DIR/niri-setup.sh"
         ;;
+    5)
+        info "Starting COSMIC Desktop setup..."
+        chmod +x "$SCRIPT_DIR/cosmic-setup.sh"
+        "$SCRIPT_DIR/cosmic-setup.sh"
+        ;;
     *)
-        error "Invalid choice. Run the script again and select 1, 2, 3 or 4."
+        error "Invalid choice. Run the script again and select 1-5."
         ;;
 esac
