@@ -73,7 +73,7 @@ Base system setup. Run this first on every install regardless of DE choice.
 
 ### install-de.sh
 Interactive DE installer. Run after `arch-setup.sh`.
-Choose between KDE Plasma, GNOME or Hyprland.
+Choose between KDE Plasma, GNOME, Hyprland, Niri + Noctalia or COSMIC Desktop.
 
 ### kde-setup.sh
 Minimal KDE Plasma setup. Installs only what's needed — no bloat.
