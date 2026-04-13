@@ -50,7 +50,7 @@ paru -S --noconfirm noctalia-shell
 # Enable ly
 # =============================================================================
 info "Enabling ly display manager..."
-sudo systemctl enable ly
+sudo systemctl enable ly@tty1
 
 # =============================================================================
 # Niri config — spawn Noctalia at startup
@@ -58,35 +58,115 @@ sudo systemctl enable ly
 info "Writing niri config..."
 mkdir -p ~/.config/niri
 cat > ~/.config/niri/config.kdl <<'EOF'
-// Niri config — minimal base
-// Noctalia handles the shell, bar, wallpaper and lock screen
+// =============================================================================
+// Niri config — Archbase
+// =============================================================================
 
-// Start Noctalia shell
+prefer-no-csd
+
+screenshot-path "~/Bilder/Screenshots/Screenshot_%Y-%m-%d_%H-%M-%S.png"
+
+// =============================================================================
+// Noctalia Shell
+// =============================================================================
 spawn-at-startup "noctalia-qs" "-c" "noctalia-shell"
 
+// =============================================================================
+// Environment
+// =============================================================================
 environment {
     QT_QPA_PLATFORMTHEME "qt6ct"
 }
 
+// =============================================================================
+// Input
+// =============================================================================
 input {
     keyboard {
         xkb {
             layout "de"
         }
+        repeat-delay 200
+        repeat-rate 35
     }
-    touchpad {
-        tap
-        natural-scroll
+    mouse {
+        accel-speed 0.0
+        accel-profile "flat"
     }
 }
 
-output "eDP-1" {
-    scale 1.0
+// =============================================================================
+// Keybindings
+// =============================================================================
+binds {
+    // Applications
+    Mod+Return { spawn "kitty"; }
+    Mod+B { spawn "firefox"; }
+    Mod+E { spawn "nautilus"; }
+
+    // Noctalia IPC
+    Mod+D { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
+    Mod+L { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
+    Mod+Shift+Q { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
+    Mod+C { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
+
+    // Window management
+    Mod+Q { close-window; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+Space { toggle-window-floating; }
+
+    // Focus
+    Mod+Left { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Up { focus-window-up; }
+    Mod+Down { focus-window-down; }
+    Mod+H { focus-column-left; }
+    Mod+L { focus-column-right; }
+    Mod+K { focus-window-up; }
+    Mod+J { focus-window-down; }
+
+    // Move windows
+    Mod+Shift+Left { move-column-left; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+Up { move-window-up; }
+    Mod+Shift+Down { move-window-down; }
+    Mod+Shift+H { move-column-left; }
+    Mod+Shift+L { move-column-right; }
+    Mod+Shift+K { move-window-up; }
+    Mod+Shift+J { move-window-down; }
+
+    // Workspaces
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
+
+    // Screenshots
+    Mod+S { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+    // Media keys
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "increase"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "decrease"; }
+    XF86AudioMute allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "muteOutput"; }
+    XF86AudioNext allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "media" "next"; }
+    XF86AudioPrev allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "media" "previous"; }
+    XF86AudioPlay allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "media" "playPause"; }
+
+    // Hotkey overlay
+    Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 }
-
-prefer-no-csd
-
-screenshot-path "~/Bilder/Screenshots/Screenshot_%Y-%m-%d_%H-%M-%S.png"
 EOF
 
 # =============================================================================
