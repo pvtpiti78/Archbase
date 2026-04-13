@@ -27,7 +27,16 @@ sudo pacman -S --noconfirm \
     xdg-desktop-portal-gnome \
     pipewire \
     wireplumber \
-    ly
+    ly \
+    nautilus \
+    file-roller \
+    gnome-text-editor \
+    gnome-keyring \
+    gvfs \
+    nwg-look \
+    adw-gtk-theme \
+    qt6ct \
+    qt5ct
 
 # =============================================================================
 # AUR packages
@@ -54,6 +63,10 @@ cat > ~/.config/niri/config.kdl <<'EOF'
 
 // Start Noctalia shell
 spawn-at-startup "noctalia-qs" "-c" "noctalia-shell"
+
+environment {
+    QT_QPA_PLATFORMTHEME "qt6ct"
+}
 
 input {
     keyboard {
