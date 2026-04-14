@@ -21,20 +21,11 @@ chmod +x arch-setup.sh
 ./arch-setup.sh
 ```
 
-After `arch-setup.sh` completes, run the DE installer:
+After `arch-setup.sh` completes, it will interactively ask you to:
+1. Choose a Desktop Environment (KDE, GNOME, Hyprland, Niri, COSMIC, or none)
+2. Optionally install the performance stack (linux-zen, scx, falcond, sysctl tweaks)
 
-```bash
-chmod +x install-de.sh
-./install-de.sh
-```
-
-For Hyprland, extract the config package first:
-
-```bash
-tar -xzf hyprland-setup.tar.gz
-chmod +x hyprland-setup.sh
-./hyprland-setup.sh
-```
+That's it — one script to rule them all.
 
 ## Scripts
 
@@ -74,6 +65,16 @@ Base system setup. Run this first on every install regardless of DE choice.
 - LACT (GPU control, `lactd` enabled)
 - Shelly GUI package manager (`shelly-bin`)
 
+**Firefox**
+- Hardware video decoding via VA-API (Nvidia)
+- `hunspell-de` + `hunspell-en_us` for spellcheck
+- Configured via `/usr/lib/firefox/distribution/policies.json` (no profile needed)
+- Telemetry disabled
+
+**Nautilus Templates**
+- Leere Textdatei.txt, Dokument.md, Skript.sh, Webseite.html
+- Available via right-click → New in Nautilus
+
 **AUR (via paru)**
 - `paru` built from source, `yay` symlinked
 - BottomUp, NewsOnUpgrade, CleanAfter, SudoLoop enabled
@@ -87,8 +88,9 @@ Base system setup. Run this first on every install regardless of DE choice.
 - `~/.config/fastfetch/config.jsonc` — Arch logo, system info
 
 ### install-de.sh
-Interactive DE installer. Run after `arch-setup.sh`.
+Standalone interactive DE installer. Can be run independently if needed.
 Choose between KDE Plasma, GNOME, Hyprland, Niri + Noctalia, or COSMIC Desktop.
+Note: `arch-setup.sh` already calls this automatically at the end.
 
 ### kde-setup.sh
 Minimal KDE Plasma setup. Installs only what's needed — no bloat.
@@ -153,3 +155,6 @@ Optional performance stack. Run after arch-setup.sh.
 - Scripts will not run as root
 - After reboot, DKMS builds the Nvidia module automatically
 - Hyprland requires wallpaper at `~/Bilder/wallpaper.jpg` before first start
+- Firefox settings are applied system-wide via policies.json, no profile needed
+- Performance setup creates a systemd-boot entry for linux-zen automatically
+- falcond group permissions require a re-login to take effect
