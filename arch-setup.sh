@@ -569,7 +569,6 @@ sudo tee /usr/lib/firefox/distribution/policies.json > /dev/null <<'EOF'
       "media.av1.enabled": { "Value": true, "Status": "default" },
       "media.ffvpx.enabled": { "Value": false, "Status": "default" },
       "gfx.webrender.all": { "Value": true, "Status": "default" },
-      "gfx.webrender.compositor.force-enabled": { "Value": true, "Status": "default" },
       "widget.use-xdg-desktop-portal.file-picker": { "Value": 1, "Status": "default" },
       "widget.wayland.opaque-region.enabled": { "Value": false, "Status": "default" },
       "apz.gtk.kinetic_scroll.enabled": { "Value": false, "Status": "default" },
@@ -583,6 +582,67 @@ sudo tee /usr/lib/firefox/distribution/policies.json > /dev/null <<'EOF'
 EOF
 
 # =============================================================================
+# Desktop Environment
+# =============================================================================
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo ""
+echo -e "${GREEN}=============================================${NC}"
+echo -e "${GREEN}  Desktop Environment wählen:               ${NC}"
+echo -e "${GREEN}=============================================${NC}"
+echo "  1) KDE Plasma"
+echo "  2) GNOME"
+echo "  3) Hyprland"
+echo "  4) Niri + Noctalia"
+echo "  5) COSMIC"
+echo "  6) Kein Desktop"
+echo ""
+read -rp "Auswahl [1-6]: " de_choice
+
+case "$de_choice" in
+    1)
+        info "Installiere KDE Plasma..."
+        bash "$SCRIPT_DIR/kde-setup.sh"
+        ;;
+    2)
+        info "Installiere GNOME..."
+        bash "$SCRIPT_DIR/gnome-setup.sh"
+        ;;
+    3)
+        info "Installiere Hyprland..."
+        tar -xzf "$SCRIPT_DIR/hyprland-setup.tar.gz" -C "$SCRIPT_DIR"
+        bash "$SCRIPT_DIR/hyprland-setup.sh"
+        ;;
+    4)
+        info "Installiere Niri + Noctalia..."
+        bash "$SCRIPT_DIR/niri-setup.sh"
+        ;;
+    5)
+        info "Installiere COSMIC..."
+        bash "$SCRIPT_DIR/cosmic-setup.sh"
+        ;;
+    6)
+        info "Kein Desktop gewählt."
+        ;;
+    *)
+        warn "Ungültige Auswahl — kein Desktop installiert."
+        ;;
+esac
+
+# =============================================================================
+# Performance Setup
+# =============================================================================
+echo ""
+read -rp "Performance Setup installieren? (linux-zen, scx, falcond, sysctl tweaks) [j/N]: " perf_choice
+
+if [[ "$perf_choice" =~ ^[jJ]$ ]]; then
+    info "Starte Performance Setup..."
+    bash "$SCRIPT_DIR/performance-setup.sh"
+else
+    info "Performance Setup übersprungen."
+fi
+
+# =============================================================================
 # Done
 # =============================================================================
 echo ""
@@ -590,4 +650,5 @@ echo -e "${GREEN}=============================================${NC}"
 echo -e "${GREEN}  Setup complete! Please reboot your system.${NC}"
 echo -e "${GREEN}=============================================${NC}"
 echo ""
-warn "Don't forget to install your DE after reboot!"
+warn "Nach dem Reboot: Kernel im Bootloader wählen falls Performance Setup installiert!"
+
