@@ -28,7 +28,7 @@ error()   { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 info "Configuring pacman.conf..."
 sudo sed -i 's/#Color/Color/' /etc/pacman.conf
 sudo sed -i 's/ParallelDownloads = .*/ParallelDownloads = 10/' /etc/pacman.conf
-sudo sed -i '/^ParallelDownloads/a ILoveCandy' /etc/pacman.conf
+grep -q 'ILoveCandy' /etc/pacman.conf || sudo sed -i '/^ParallelDownloads/a ILoveCandy' /etc/pacman.conf
 sudo sed -i 's/#VerbosePkgLists/VerbosePkgLists/' /etc/pacman.conf
 
 # =============================================================================
@@ -85,6 +85,7 @@ sudo pacman -S --noconfirm \
     kitty \
     starship \
     firefox \
+    hunspell-de \
     steam \
     protontricks \
     lact \
@@ -443,21 +444,14 @@ sudo ln -sf /usr/bin/paru /usr/local/bin/yay
 # AUR packages
 # =============================================================================
 info "Installing AUR packages..."
-
-# Heroic Games Launcher
-paru -S --noconfirm heroic-games-launcher-bin
-
-# ProtonPlus
-paru -S --noconfirm protonplus
-
-# Faugus Launcher
-paru -S --noconfirm faugus-launcher
+paru -S --noconfirm \
+    heroic-games-launcher-bin \
+    protonplus \
+    faugus-launcher \
+    shelly-bin
 
 info "Enabling lactd..."
 sudo systemctl enable --now lactd
-
-# Shelly (GUI package manager)
-paru -S --noconfirm shelly-bin
 
 # =============================================================================
 # Environment configs
