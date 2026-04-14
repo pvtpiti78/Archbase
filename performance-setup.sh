@@ -19,7 +19,7 @@ error() { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 [[ $EUID -eq 0 ]] && error "Do not run as root."
 
 # =============================================================================
-# CachyOS Repository (x86-64-v4 — optimized for Zen4/Zen5)
+# CachyOS Repository (x86-64-v3 — compatible with stock Arch pacman)
 # Note: skipping [cachyos] itself to avoid custom pacman fork
 # =============================================================================
 info "Adding CachyOS repository..."
@@ -33,7 +33,7 @@ sudo pacman -U --noconfirm \
 
 info "Configuring CachyOS repos in pacman.conf..."
 
-# Fix Architecture = auto (required for x86_64_v4 packages)
+# Architecture = auto (good practice)
 sudo sed -i 's/^Architecture = .*/Architecture = auto/' /etc/pacman.conf
 if ! grep -q "^Architecture" /etc/pacman.conf; then
     sudo sed -i '/^\[options\]/a Architecture = auto' /etc/pacman.conf
@@ -45,9 +45,9 @@ if grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
     sudo sed -i '/^\[chaotic-aur\]/,/^$/d' /etc/pacman.conf
 fi
 
-# Add CachyOS v4 repos above [core]
-if ! grep -q "\[cachyos-v4\]" /etc/pacman.conf; then
-    sudo sed -i '/^\[core\]/i [cachyos-v4]\nInclude = /etc/pacman.d/cachyos-v4-mirrorlist\n[cachyos-core-v4]\nInclude = /etc/pacman.d/cachyos-v4-mirrorlist\n[cachyos-extra-v4]\nInclude = /etc/pacman.d/cachyos-v4-mirrorlist\n' /etc/pacman.conf
+# Add CachyOS v3 repos above [core]
+if ! grep -q "\[cachyos-v3\]" /etc/pacman.conf; then
+    sudo sed -i '/^\[core\]/i [cachyos-v3]\nInclude = /etc/pacman.d/cachyos-v3-mirrorlist\n[cachyos-core-v3]\nInclude = /etc/pacman.d/cachyos-v3-mirrorlist\n[cachyos-extra-v3]\nInclude = /etc/pacman.d/cachyos-v3-mirrorlist\n' /etc/pacman.conf
 else
     warn "CachyOS repos already in pacman.conf — skipping"
 fi
