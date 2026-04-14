@@ -38,10 +38,12 @@ EOF
 sudo pacman -Sy --noconfirm
 
 # =============================================================================
-# linux-tkg (BORE scheduler, Chaotic-AUR prebuilt)
+# linux-tkg (BORE scheduler, built from AUR)
+# Note: linux-tkg was dropped from Chaotic-AUR — building from source
+# On 9800X3D this takes ~10-15 minutes
 # =============================================================================
-info "Installing linux-tkg-bore kernel..."
-sudo pacman -S --noconfirm linux-tkg-bore linux-tkg-bore-headers
+info "Installing linux-tkg-bore kernel from AUR (this will take a while)..."
+paru -S --noconfirm linux-tkg-bore linux-tkg-bore-headers
 
 # =============================================================================
 # scx-tools (sched_ext userspace tools)
