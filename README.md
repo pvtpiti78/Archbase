@@ -28,6 +28,14 @@ chmod +x install-de.sh
 ./install-de.sh
 ```
 
+For Hyprland, extract the config package first:
+
+```bash
+tar -xzf hyprland-setup.tar.gz
+chmod +x hyprland-setup.sh
+./hyprland-setup.sh
+```
+
 ## Scripts
 
 ### arch-setup.sh
@@ -45,7 +53,9 @@ Base system setup. Run this first on every install regardless of DE choice.
 
 **Shell & Terminal**
 - Installs `fish` and sets it as default shell
-- Installs `kitty` terminal
+- Installs `kitty` terminal with Tokyo Night theme
+- Installs `starship` prompt with Tokyo Night theme
+- Installs `fastfetch` with Arch logo config
 
 **Fonts & Codecs**
 - Noto fonts (including CJK and Emoji)
@@ -58,26 +68,30 @@ Base system setup. Run this first on every install regardless of DE choice.
 - `libva-nvidia-driver`
 - `nvidia-persistenced` enabled at boot
 
+**Gaming**
+- Steam, Heroic Games Launcher, ProtonPlus, Protontricks, Faugus Launcher
+- LACT (GPU control, `lactd` enabled)
+- Shelly GUI package manager (`shelly-bin`)
+
 **AUR (via paru)**
 - `paru` built from source, `yay` symlinked
-- Steam, Heroic Games Launcher, ProtonPlus, ProtonTricks, Faugus Launcher
-- LACT (GPU control, `lactd` enabled)
+- BottomUp, NewsOnUpgrade, CleanAfter, SudoLoop enabled
 
 **Environment configs**
 - `~/.config/environment.d/gaming.conf` — Proton / DLSS SR+RR / Dynamic MFG / HDR / NTSYNC / VRR
 - `~/.config/environment.d/nvidia.conf` — Nvidia Wayland / Vulkan / Electron / Firefox HW decode
-- `~/.config/fish/config.fish` — Starship prompt, Fastfetch on start, aliases
+- `~/.config/fish/config.fish` — Starship prompt, Fastfetch on start, aliases (update, hardclean, ...)
 - `~/.config/starship.toml` — Tokyo Night prompt theme
 - `~/.config/kitty/kitty.conf` — Tokyo Night theme, JetBrains Mono Nerd, Fish shell
 - `~/.config/fastfetch/config.jsonc` — Arch logo, system info
 
 ### install-de.sh
 Interactive DE installer. Run after `arch-setup.sh`.
-Choose between KDE Plasma, GNOME, Hyprland, Niri + Noctalia or COSMIC Desktop.
+Choose between KDE Plasma, GNOME, Hyprland, Niri + Noctalia, or COSMIC Desktop.
 
 ### kde-setup.sh
 Minimal KDE Plasma setup. Installs only what's needed — no bloat.
-- plasma-desktop, plasma-nm, plasma-pa, kscreen, GDM equivalent (plasmalogin)
+- plasma-desktop, plasma-nm, plasma-pa, kscreen, plasmalogin
 - Dolphin, Kate, Ark, Breeze GTK
 
 ### gnome-setup.sh
@@ -85,26 +99,44 @@ Minimal GNOME 50 setup.
 - gnome-shell, gnome-control-center, gdm
 - Nautilus, GNOME Text Editor, File Roller, Resources, Loupe
 - xdg-desktop-portal-gnome, gnome-keyring, gvfs
-- extension-manager (AUR)
+- extension-manager
 
 ### cosmic-setup.sh
 Minimal COSMIC Desktop 1.0.9 setup with cosmic-greeter.
-- Vollständiges COSMIC ohne cosmic-store
+- Full COSMIC without cosmic-store
 - cosmic-session, compositor, panel, applets, launcher
 - cosmic-files, cosmic-text-editor, cosmic-terminal
-- cosmic-greeter als Display Manager
+- cosmic-greeter as display manager
 
 ### hyprland-setup.sh
-Minimal Hyprland setup with Quickshell bar.
-- Workspace widgets, centered clock, system tray, power menu
+Hyprland with custom Quickshell bar. Requires `hyprland-setup.tar.gz`.
+- hyprland, hyprpaper, hypridle, hyprlock, hyprpolkitagent
+- quickshell-git (AUR) with custom Tokyo Night bar
+- Workspace pills, centered clock, volume widget, system tray, power menu
+- swaync for notifications, rofi-wayland as launcher
+- Dolphin, Kate, Ark, breeze-gtk
+- ly display manager
 
 ### niri-setup.sh
 Minimal Niri + Noctalia setup with ly display manager.
 - niri (scrollable-tiling Wayland compositor)
 - xwayland-satellite for X11 app support
-- noctalia-shell (AUR) — pulls noctalia-qs automatically
-- ly display manager
-- Niri config with Noctalia autostart
+- noctalia-shell (AUR) — Quickshell-based desktop shell
+- Nautilus, File Roller, GNOME Text Editor
+- ly display manager, qt6ct, nwg-look, adw-gtk-theme
+
+### performance-setup.sh
+Optional performance stack. Run after arch-setup.sh.
+- Chaotic-AUR repository for prebuilt binaries
+- linux-tkg-bore kernel (BORE scheduler)
+- scx-tools + scx-scheds — sched_ext with scx_cosmos via scx_loader
+- falcond + falcond-profiles — automatic per-game optimization
+- falcond-gui (AUR)
+- sysctl tweaks — memory, CPU, network, BBR
+- udev rules — optimal I/O schedulers per device type
+- modprobe tweaks — disable audio power saving, watchdogs
+- systemd tuning — faster boot/shutdown
+- zram optimization with zstd
 
 ## Requirements
 
@@ -120,3 +152,4 @@ Minimal Niri + Noctalia setup with ly display manager.
 - multilib is enabled automatically for 32-bit Steam/Wine support
 - Scripts will not run as root
 - After reboot, DKMS builds the Nvidia module automatically
+- Hyprland requires wallpaper at `~/Bilder/wallpaper.jpg` before first start
