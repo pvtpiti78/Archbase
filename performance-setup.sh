@@ -32,6 +32,20 @@ sudo pacman -U --noconfirm \
     'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-v4-mirrorlist-27-1-any.pkg.tar.zst'
 
 info "Configuring CachyOS repos in pacman.conf..."
+
+# Fix Architecture = auto (required for x86_64_v4 packages)
+sudo sed -i 's/^Architecture = .*/Architecture = auto/' /etc/pacman.conf
+if ! grep -q "^Architecture" /etc/pacman.conf; then
+    sudo sed -i '/^\[options\]/a Architecture = auto' /etc/pacman.conf
+fi
+
+# Remove Chaotic-AUR if present (conflicts with CachyOS)
+if grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
+    warn "Removing Chaotic-AUR from pacman.conf..."
+    sudo sed -i '/^\[chaotic-aur\]/,/^$/d' /etc/pacman.conf
+fi
+
+# Add CachyOS v4 repos above [core]
 if ! grep -q "\[cachyos-v4\]" /etc/pacman.conf; then
     sudo sed -i '/^\[core\]/i [cachyos-v4]\nInclude = /etc/pacman.d/cachyos-v4-mirrorlist\n[cachyos-core-v4]\nInclude = /etc/pacman.d/cachyos-v4-mirrorlist\n[cachyos-extra-v4]\nInclude = /etc/pacman.d/cachyos-v4-mirrorlist\n' /etc/pacman.conf
 else
