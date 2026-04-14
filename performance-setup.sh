@@ -29,21 +29,23 @@ sudo pacman -U --noconfirm \
     'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
 info "Configuring Chaotic-AUR in pacman.conf..."
-sudo tee -a /etc/pacman.conf > /dev/null <<'EOF'
+if ! grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
+    sudo tee -a /etc/pacman.conf > /dev/null <<'EOF'
 
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
 EOF
+else
+    warn "Chaotic-AUR already in pacman.conf — skipping"
+fi
 
 sudo pacman -Sy --noconfirm
 
 # =============================================================================
-# linux-tkg (BORE scheduler, built from AUR)
-# Note: linux-tkg was dropped from Chaotic-AUR — building from source
-# On 9800X3D this takes ~10-15 minutes
+# linux-cachyos-bore (BORE scheduler, from AUR)
 # =============================================================================
-info "Installing linux-tkg-bore kernel from AUR (this will take a while)..."
-paru -S --noconfirm linux-tkg-bore linux-tkg-bore-headers
+info "Installing linux-cachyos-bore kernel from AUR (this will take a while)..."
+paru -S --noconfirm linux-cachyos-bore linux-cachyos-bore-headers
 
 # =============================================================================
 # scx-tools (sched_ext userspace tools)
