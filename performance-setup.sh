@@ -2,7 +2,7 @@
 # =============================================================================
 # Archbase Performance Setup — Full Meme Mode 🚀
 # Run after arch-setup.sh
-# Includes: Chaotic-AUR, linux-tkg, scx-tools, falcond, sysctl tweaks
+# Includes: CachyOS repo, linux-cachyos-bore, scx-tools, falcond, sysctl tweaks
 # =============================================================================
 
 set -e
@@ -19,33 +19,32 @@ error() { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 [[ $EUID -eq 0 ]] && error "Do not run as root."
 
 # =============================================================================
-# Chaotic-AUR
+# CachyOS Repository (x86-64-v4 — optimized for Zen4/Zen5)
+# Note: skipping [cachyos] itself to avoid custom pacman fork
 # =============================================================================
-info "Adding Chaotic-AUR repository..."
-sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-sudo pacman-key --lsign-key 3056513887B78AEB
+info "Adding CachyOS repository..."
+sudo pacman-key --recv-keys F3B607488DB35A47 --keyserver keyserver.ubuntu.com
+sudo pacman-key --lsign-key F3B607488DB35A47
 sudo pacman -U --noconfirm \
-    'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
-    'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+    'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-keyring-20240331-1-any.pkg.tar.zst' \
+    'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-mirrorlist-27-1-any.pkg.tar.zst' \
+    'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-v3-mirrorlist-27-1-any.pkg.tar.zst' \
+    'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-v4-mirrorlist-27-1-any.pkg.tar.zst'
 
-info "Configuring Chaotic-AUR in pacman.conf..."
-if ! grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
-    sudo tee -a /etc/pacman.conf > /dev/null <<'EOF'
-
-[chaotic-aur]
-Include = /etc/pacman.d/chaotic-mirrorlist
-EOF
+info "Configuring CachyOS repos in pacman.conf..."
+if ! grep -q "\[cachyos-v4\]" /etc/pacman.conf; then
+    sudo sed -i '/^\[core\]/i [cachyos-v4]\nInclude = /etc/pacman.d/cachyos-v4-mirrorlist\n[cachyos-core-v4]\nInclude = /etc/pacman.d/cachyos-v4-mirrorlist\n[cachyos-extra-v4]\nInclude = /etc/pacman.d/cachyos-v4-mirrorlist\n' /etc/pacman.conf
 else
-    warn "Chaotic-AUR already in pacman.conf — skipping"
+    warn "CachyOS repos already in pacman.conf — skipping"
 fi
 
 sudo pacman -Sy --noconfirm
 
 # =============================================================================
-# linux-cachyos-bore (BORE scheduler, from AUR)
+# linux-cachyos-bore (BORE scheduler, CachyOS prebuilt binary — no compile!)
 # =============================================================================
-info "Installing linux-cachyos-bore kernel from AUR (this will take a while)..."
-paru -S --noconfirm linux-cachyos-bore linux-cachyos-bore-headers
+info "Installing linux-cachyos-bore kernel..."
+sudo pacman -S --noconfirm linux-cachyos-bore linux-cachyos-bore-headers
 
 # =============================================================================
 # scx-tools (sched_ext userspace tools)
