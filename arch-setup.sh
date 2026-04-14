@@ -554,47 +554,33 @@ cat > ~/Vorlagen/"Webseite.html" <<'EOF'
 EOF
 
 # =============================================================================
-# Firefox user.js (about:config tweaks)
+# Firefox policies.json (about:config tweaks — kein Profil nötig)
 # =============================================================================
-info "Configuring Firefox..."
-firefox --headless --no-remote &>/dev/null &
-sleep 5
-kill %1 &>/dev/null || true
-sleep 1
-
-FIREFOX_PROFILE=$(find ~/.mozilla/firefox -maxdepth 1 -name "*.default-release" -type d 2>/dev/null | head -1)
-if [ -n "$FIREFOX_PROFILE" ]; then
-    cat > "$FIREFOX_PROFILE/user.js" <<'EOF'
-// Hardware Video Decoding (Nvidia/VAAPI)
-user_pref("media.ffmpeg.vaapi.enabled", true);
-user_pref("media.rdd-ffmpeg.enabled", true);
-user_pref("media.hardware-video-decoding.force-enabled", true);
-user_pref("widget.dmabuf.force-enabled", true);
-
-// Codec support
-user_pref("media.av1.enabled", true);
-user_pref("media.ffvpx.enabled", false);
-
-// WebRender
-user_pref("gfx.webrender.all", true);
-user_pref("gfx.webrender.compositor.force-enabled", true);
-
-// Wayland
-user_pref("widget.use-xdg-desktop-portal.file-picker", 1);
-user_pref("widget.wayland.opaque-region.enabled", false);
-
-// Scrolling
-user_pref("apz.gtk.kinetic_scroll.enabled", false);
-
-// Telemetry off
-user_pref("datareporting.healthreport.uploadEnabled", false);
-user_pref("datareporting.policy.dataSubmissionEnabled", false);
-user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false);
+info "Configuring Firefox via policies.json..."
+sudo mkdir -p /usr/lib/firefox/distribution
+sudo tee /usr/lib/firefox/distribution/policies.json > /dev/null <<'EOF'
+{
+  "policies": {
+    "Preferences": {
+      "media.ffmpeg.vaapi.enabled": { "Value": true, "Status": "default" },
+      "media.rdd-ffmpeg.enabled": { "Value": true, "Status": "default" },
+      "media.hardware-video-decoding.force-enabled": { "Value": true, "Status": "default" },
+      "widget.dmabuf.force-enabled": { "Value": true, "Status": "default" },
+      "media.av1.enabled": { "Value": true, "Status": "default" },
+      "media.ffvpx.enabled": { "Value": false, "Status": "default" },
+      "gfx.webrender.all": { "Value": true, "Status": "default" },
+      "gfx.webrender.compositor.force-enabled": { "Value": true, "Status": "default" },
+      "widget.use-xdg-desktop-portal.file-picker": { "Value": 1, "Status": "default" },
+      "widget.wayland.opaque-region.enabled": { "Value": false, "Status": "default" },
+      "apz.gtk.kinetic_scroll.enabled": { "Value": false, "Status": "default" },
+      "datareporting.healthreport.uploadEnabled": { "Value": false, "Status": "default" },
+      "datareporting.policy.dataSubmissionEnabled": { "Value": false, "Status": "default" },
+      "browser.crashReports.unsubmittedCheck.autoSubmit2": { "Value": false, "Status": "default" }
+    },
+    "DisableTelemetry": true
+  }
+}
 EOF
-    info "Firefox user.js written to $FIREFOX_PROFILE"
-else
-    warn "Firefox profile not found — skipping user.js"
-fi
 
 # =============================================================================
 # Done

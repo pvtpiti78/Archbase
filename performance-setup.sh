@@ -24,6 +24,20 @@ error() { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 info "Installing linux-zen kernel..."
 sudo pacman -S --noconfirm linux-zen linux-zen-headers
 
+info "Creating systemd-boot entry for linux-zen..."
+PARTUUID=$(findmnt -no PARTUUID /)
+EXISTING_OPTS=$(grep "^options" /boot/loader/entries/*.conf 2>/dev/null | head -1 | cut -d' ' -f2-)
+if [ -z "$EXISTING_OPTS" ]; then
+    EXISTING_OPTS="root=PARTUUID=${PARTUUID} rw rootfstype=xfs"
+fi
+
+if [ ! -f /boot/loader/entries/arch-linux-zen.conf ]; then
+    printf "title   Arch Linux (linux-zen)\nlinux   /vmlinuz-linux-zen\ninitrd  /initramfs-linux-zen.img\noptions %s\n" "$EXISTING_OPTS" | sudo tee /boot/loader/entries/arch-linux-zen.conf > /dev/null
+    info "Bootloader entry created for linux-zen"
+else
+    warn "Bootloader entry already exists — skipping"
+fi
+
 # =============================================================================
 # scx-tools + scx-scheds (sched_ext userspace tools)
 # =============================================================================
@@ -50,7 +64,10 @@ info "Installing falcond-gui..."
 paru -S --noconfirm falcond-gui || warn "falcond-gui build failed — skipping"
 
 info "Adding user to falcond group..."
-sudo groupadd -f falcond
+sudo groupadd --system falcond 2>/dev/null || true
+sudo mkdir -p /usr/share/falcond/profiles/user
+sudo chown :falcond /usr/share/falcond/profiles/user
+sudo chmod 2775 /usr/share/falcond/profiles/user
 sudo usermod -aG falcond "$USER"
 
 info "Configuring falcond..."
