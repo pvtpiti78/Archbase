@@ -70,6 +70,7 @@ Base system setup. Run this first on every install regardless of DE choice.
 
 **Gaming**
 - Steam, Heroic Games Launcher, ProtonPlus, Protontricks, Faugus Launcher
+- Firefox with German dictionary (`hunspell-de`)
 - LACT (GPU control, `lactd` enabled)
 - Shelly GUI package manager (`shelly-bin`)
 
@@ -127,8 +128,7 @@ Minimal Niri + Noctalia setup with ly display manager.
 
 ### performance-setup.sh
 Optional performance stack. Run after arch-setup.sh.
-- Chaotic-AUR repository for prebuilt binaries
-- linux-tkg-bore kernel (BORE scheduler)
+- linux-zen kernel (gaming-optimized, official Arch repo)
 - scx-tools + scx-scheds — sched_ext with scx_cosmos via scx_loader
 - falcond + falcond-profiles — automatic per-game optimization
 - falcond-gui (AUR)
