@@ -86,6 +86,7 @@ sudo pacman -S --noconfirm \
     starship \
     firefox \
     hunspell-de \
+    hunspell-en_us \
     steam \
     protontricks \
     lact \
