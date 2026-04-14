@@ -66,7 +66,8 @@ poll_interval_ms = 9000
 EOF
 
 info "Enabling falcond..."
-sudo systemctl enable --now falcond
+sudo systemctl enable falcond
+warn "Falcond enabled — log out and back in for group permissions to take effect, then: sudo systemctl start falcond"
 
 # =============================================================================
 # sysctl tweaks — bis zur Kotzgrenze 🤢

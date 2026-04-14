@@ -528,6 +528,73 @@ vm.max_map_count=2147483642
 EOF
 sudo sysctl --system
 
+
+
+# =============================================================================
+# Nautilus Vorlagen (Rechtsklick → Neu erstellen)
+# =============================================================================
+info "Creating Nautilus templates..."
+mkdir -p ~/Vorlagen
+touch ~/Vorlagen/"Leere Textdatei.txt"
+touch ~/Vorlagen/"Dokument.md"
+touch ~/Vorlagen/"Skript.sh"
+cat > ~/Vorlagen/"Webseite.html" <<'EOF'
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titel</title>
+</head>
+<body>
+
+</body>
+</html>
+EOF
+
+# =============================================================================
+# Firefox user.js (about:config tweaks)
+# =============================================================================
+info "Configuring Firefox..."
+firefox --headless --no-remote &>/dev/null &
+sleep 5
+kill %1 &>/dev/null || true
+sleep 1
+
+FIREFOX_PROFILE=$(find ~/.mozilla/firefox -maxdepth 1 -name "*.default-release" -type d 2>/dev/null | head -1)
+if [ -n "$FIREFOX_PROFILE" ]; then
+    cat > "$FIREFOX_PROFILE/user.js" <<'EOF'
+// Hardware Video Decoding (Nvidia/VAAPI)
+user_pref("media.ffmpeg.vaapi.enabled", true);
+user_pref("media.rdd-ffmpeg.enabled", true);
+user_pref("media.hardware-video-decoding.force-enabled", true);
+user_pref("widget.dmabuf.force-enabled", true);
+
+// Codec support
+user_pref("media.av1.enabled", true);
+user_pref("media.ffvpx.enabled", false);
+
+// WebRender
+user_pref("gfx.webrender.all", true);
+user_pref("gfx.webrender.compositor.force-enabled", true);
+
+// Wayland
+user_pref("widget.use-xdg-desktop-portal.file-picker", 1);
+user_pref("widget.wayland.opaque-region.enabled", false);
+
+// Scrolling
+user_pref("apz.gtk.kinetic_scroll.enabled", false);
+
+// Telemetry off
+user_pref("datareporting.healthreport.uploadEnabled", false);
+user_pref("datareporting.policy.dataSubmissionEnabled", false);
+user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false);
+EOF
+    info "Firefox user.js written to $FIREFOX_PROFILE"
+else
+    warn "Firefox profile not found — skipping user.js"
+fi
+
 # =============================================================================
 # Done
 # =============================================================================
