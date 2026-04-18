@@ -7,7 +7,7 @@
 #   sudo pacman -S git base-devel
 # =============================================================================
 
-set -e
+set -euo pipefail
 
 # Colors
 RED='\033[0;31m'
@@ -146,7 +146,7 @@ alias cls='clear'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias update='paru -Syu'
-alias hardclean='bash -c "sudo rm -rf /var/cache/pacman/pkg/download-*"; and sudo pacman -Scc; and paru -Sc'
+alias hardclean='sudo bash -c "rm -rf /var/cache/pacman/pkg/download-*" && sudo pacman -Scc && paru -Sc'
 EOF
 
 # =============================================================================
@@ -460,8 +460,8 @@ sudo systemctl enable --now lactd
 # Environment configs
 # =============================================================================
 info "Writing gaming.conf..."
-mkdir -p ~/.config/environment.d
-cat > ~/.config/environment.d/gaming.conf <<'EOF'
+sudo mkdir -p /etc/environment.d
+sudo tee /etc/environment.d/gaming.conf > /dev/null <<'EOF'
 ### OpenGL
 __GL_SYNC_TO_VBLANK=0
 __GL_MaxFramesAllowed=1
@@ -511,7 +511,7 @@ DXVK_NVAPI_SET_NGX_DEBUG_OPTIONS="DLSSIndicator=1024,DLSSGIndicator=2"
 EOF
 
 info "Writing nvidia.conf..."
-cat > ~/.config/environment.d/nvidia.conf <<'EOF'
+sudo tee /etc/environment.d/nvidia.conf > /dev/null <<'EOF'
 GBM_BACKEND=nvidia-drm
 __GLX_VENDOR_LIBRARY_NAME=nvidia
 LIBVA_DRIVER_NAME=nvidia
@@ -529,9 +529,7 @@ info "Configuring sysctl..."
 sudo tee /etc/sysctl.d/99-gaming.conf > /dev/null <<EOF
 vm.max_map_count=2147483642
 EOF
-sudo sysctl --system
-
-
+sudo sysctl --system > /dev/null
 
 # =============================================================================
 # Nautilus Vorlagen (Rechtsklick → Neu erstellen)
@@ -563,22 +561,15 @@ sudo mkdir -p /usr/lib/firefox/distribution
 sudo tee /usr/lib/firefox/distribution/policies.json > /dev/null <<'EOF'
 {
   "policies": {
+    "DisableTelemetry": true,
     "Preferences": {
-      "media.ffmpeg.vaapi.enabled": { "Value": true, "Status": "default" },
-      "media.rdd-ffmpeg.enabled": { "Value": true, "Status": "default" },
+      "media.ffmpeg.vaapi.enabled":                  { "Value": true, "Status": "default" },
+      "media.rdd-ffmpeg.enabled":                    { "Value": true, "Status": "default" },
       "media.hardware-video-decoding.force-enabled": { "Value": true, "Status": "default" },
-      "widget.dmabuf.force-enabled": { "Value": true, "Status": "default" },
-      "media.av1.enabled": { "Value": true, "Status": "default" },
-      "media.ffvpx.enabled": { "Value": false, "Status": "default" },
-      "gfx.webrender.all": { "Value": true, "Status": "default" },
-      "widget.use-xdg-desktop-portal.file-picker": { "Value": 1, "Status": "default" },
-      "widget.wayland.opaque-region.enabled": { "Value": false, "Status": "default" },
-      "apz.gtk.kinetic_scroll.enabled": { "Value": false, "Status": "default" },
-      "datareporting.healthreport.uploadEnabled": { "Value": false, "Status": "default" },
-      "datareporting.policy.dataSubmissionEnabled": { "Value": false, "Status": "default" },
-      "browser.crashReports.unsubmittedCheck.autoSubmit2": { "Value": false, "Status": "default" }
-    },
-    "DisableTelemetry": true
+      "widget.dmabuf.force-enabled":                 { "Value": true, "Status": "default" },
+      "media.av1.enabled":                           { "Value": true, "Status": "default" },
+      "gfx.webrender.all":                           { "Value": true, "Status": "default" }
+    }
   }
 }
 EOF
@@ -611,6 +602,7 @@ case "$de_choice" in
         ;;
     3)
         info "Installiere Hyprland..."
+        [[ -f "$SCRIPT_DIR/hyprland-setup.tar.gz" ]] || error "hyprland-setup.tar.gz nicht gefunden in $SCRIPT_DIR"
         tar -xzf "$SCRIPT_DIR/hyprland-setup.tar.gz" -C "$SCRIPT_DIR"
         bash "$SCRIPT_DIR/hyprland-setup.sh"
         ;;
