@@ -473,8 +473,13 @@ __GL_SHADER_DISK_CACHE_SIZE=12000000000
 PROTON_ENABLE_NGX_UPDATER=1
 PROTON_ENABLE_WAYLAND=1
 PROTON_ENABLE_NVAPI=1
-PROTON_VKD3D_HEAP=1
 PROTON_USE_NTSYNC=1
+
+### VKD3D Descriptor Heap (rebased branch, cachyos-10.0-20260409-slr+)
+# Requires vkd3d-proton with descriptor_heap rebase — not yet in GE/CachyOS stable
+# Both vars must be set together; enables new code path alongside legacy for testing
+PROTON_VKD3D_HEAP=1
+VKD3D_CONFIG=descriptor_heap
 
 ### NTSYNC
 WINEFSYNC=0
@@ -512,7 +517,7 @@ EOF
 
 info "Writing nvidia.conf..."
 sudo tee /etc/environment.d/nvidia.conf > /dev/null <<'EOF'
-GBM_BACKEND=nvidia-drm
+# GBM_BACKEND=nvidia-drm — removed, deprecated since R535+ and can cause issues with newer compositors
 __GLX_VENDOR_LIBRARY_NAME=nvidia
 LIBVA_DRIVER_NAME=nvidia
 NVD_BACKEND=direct

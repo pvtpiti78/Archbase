@@ -80,8 +80,8 @@ Base system setup. Run this first on every install regardless of DE choice.
 - BottomUp, NewsOnUpgrade, CleanAfter, SudoLoop enabled
 
 **Environment configs**
-- `~/.config/environment.d/gaming.conf` — Proton / DLSS SR+RR / Dynamic MFG / HDR / NTSYNC / VRR
-- `~/.config/environment.d/nvidia.conf` — Nvidia Wayland / Vulkan / Electron / Firefox HW decode
+- `~/.config/environment.d/gaming.conf` — Proton / DLSS SR+RR / Dynamic MFG / HDR / NTSYNC / VRR / VKD3D descriptor heap (cachyos-10.0-20260409-slr+)
+- `~/.config/environment.d/nvidia.conf` — Nvidia Wayland / Vulkan / Electron / Firefox HW decode (`GBM_BACKEND` removed — deprecated since R535+, causes issues with newer compositors)
 - `~/.config/fish/config.fish` — Starship prompt, Fastfetch on start, aliases (update, hardclean, ...)
 - `~/.config/starship.toml` — Tokyo Night prompt theme
 - `~/.config/kitty/kitty.conf` — Tokyo Night theme, JetBrains Mono Nerd, Fish shell

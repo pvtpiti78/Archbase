@@ -101,7 +101,7 @@ input {
 // =============================================================================
 binds {
     // Applications
-    Mod+Return { spawn "alacritty"; }
+    Mod+Return { spawn "kitty"; }
     Mod+B { spawn "firefox"; }
     Mod+E { spawn "nautilus"; }
 

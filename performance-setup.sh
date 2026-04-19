@@ -109,7 +109,6 @@ vm.max_map_count = 2147483642
 kernel.nmi_watchdog = 0
 kernel.unprivileged_userns_clone = 1
 kernel.kptr_restrict = 2
-kernel.sched_cfs_bandwidth_slice_us = 3000
 kernel.sched_migration_cost_ns = 250000
 kernel.sched_autogroup_enabled = 1
 
