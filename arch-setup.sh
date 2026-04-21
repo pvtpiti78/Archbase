@@ -512,18 +512,16 @@ PROTON_ENABLE_HDR=1
 ENABLE_HDR_WSI=1
 
 ### Debug
-DXVK_NVAPI_SET_NGX_DEBUG_OPTIONS="DLSSIndicator=1024,DLSSGIndicator=2"
+# DXVK_NVAPI_SET_NGX_DEBUG_OPTIONS="DLSSIndicator=1024,DLSSGIndicator=2"
 EOF
 
+# =============================================================================
+# nvidia.conf ENV
+# =============================================================================
 info "Writing nvidia.conf..."
 sudo tee /etc/environment.d/nvidia.conf > /dev/null <<'EOF'
-# GBM_BACKEND=nvidia-drm — removed, deprecated since R535+ and can cause issues with newer compositors
-__GLX_VENDOR_LIBRARY_NAME=nvidia
 LIBVA_DRIVER_NAME=nvidia
 NVD_BACKEND=direct
-ELECTRON_OZONE_PLATFORM_HINT=auto
-
-# Hardware-Decoding Firefox
 MOZ_DISABLE_RDD_SANDBOX=1
 EOF
 
