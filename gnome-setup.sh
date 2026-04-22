@@ -36,6 +36,8 @@ sudo pacman -S --noconfirm \
     xdg-desktop-portal-gnome \
     gnome-keyring \
     gvfs \
+    gvfs-mtp \
+    papirus-icon-theme \
     extension-manager
 
 # =============================================================================
