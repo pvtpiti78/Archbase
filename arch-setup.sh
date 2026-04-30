@@ -478,8 +478,8 @@ PROTON_USE_NTSYNC=1
 ### VKD3D Descriptor Heap (rebased branch, cachyos-10.0-20260409-slr+)
 # Requires vkd3d-proton with descriptor_heap rebase — not yet in GE/CachyOS stable
 # Both vars must be set together; enables new code path alongside legacy for testing
+VKD3D_CONFIG=descriptor_heap,enable_experimental_features
 PROTON_VKD3D_HEAP=1
-VKD3D_CONFIG=descriptor_heap
 
 ### NTSYNC
 WINEFSYNC=0
