@@ -476,6 +476,7 @@ PROTON_ENABLE_WAYLAND=1
 PROTON_ENABLE_NVAPI=1
 PROTON_USE_NTSYNC=1
 DXVK_NVAPI_VKREFLEX=1
+PROTON_PRIORITY_HIGH=1
 
 ### VKD3D Descriptor Heap (rebased branch, cachyos-10.0-20260409-slr+)
 # Requires vkd3d-proton with descriptor_heap rebase — not yet in GE/CachyOS stable
