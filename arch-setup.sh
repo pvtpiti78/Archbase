@@ -478,11 +478,8 @@ PROTON_USE_NTSYNC=1
 DXVK_NVAPI_VKREFLEX=1
 PROTON_PRIORITY_HIGH=1
 
-### VKD3D Descriptor Heap (rebased branch, cachyos-10.0-20260409-slr+)
-# Requires vkd3d-proton with descriptor_heap rebase — not yet in GE/CachyOS stable
-# Both vars must be set together; enables new code path alongside legacy for testing
+### VKD3D Descriptor Heap (mainline seit vkd3d-proton 20260521)
 VKD3D_CONFIG=descriptor_heap
-# PROTON_VKD3D_HEAP=1
 
 ### NTSYNC
 WINEFSYNC=0
@@ -502,19 +499,19 @@ DXVK_NVAPI_DRS_NGX_DLSS_RR_OVERRIDE_RENDER_PRESET_SELECTION=render_preset_latest
 DXVK_NVAPI_DRS_NGX_DLSS_FG_OVERRIDE=on
 DXVK_NVAPI_DRS_NGX_DLSS_FG_OVERRIDE_RENDER_PRESET_SELECTION=render_preset_latest
 DXVK_NVAPI_DRS_NGX_DLSSG_MODE=dynamic
-DXVK_NVAPI_DRS_NGX_DLSSG_DYNAMIC_TARGET_FRAME_RATE=240
+DXVK_NVAPI_DRS_NGX_DLSSG_DYNAMIC_TARGET_FRAME_RATE=360
 DXVK_NVAPI_DRS_NGX_DLSSG_DYNAMIC_MULTI_FRAME_COUNT_MAX=5
 
-### Frame Rate Cap
-DXVK_FRAME_RATE=237
-VKD3D_FRAME_RATE=237
+### Frame Rate Cap (355 für VRR Dropout-Schutz bei 360Hz)
+DXVK_FRAME_RATE=355
+VKD3D_FRAME_RATE=355
 
 ### HDR
 DXVK_HDR=1
 PROTON_ENABLE_HDR=1
 ENABLE_HDR_WSI=1
 
-### Debug
+### Debug (auskommentiert)
 # DXVK_NVAPI_SET_NGX_DEBUG_OPTIONS="DLSSIndicator=1024,DLSSGIndicator=2"
 EOF
 
