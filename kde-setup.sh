@@ -31,6 +31,7 @@ sudo pacman -S --noconfirm \
     kwallet-pam \
     libappindicator-gtk3 \
     qt6-wayland \
+    kio-extras \
     plasma-login-manager \
     dolphin \
     kate \
