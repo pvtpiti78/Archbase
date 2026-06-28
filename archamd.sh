@@ -488,6 +488,7 @@ EOF
 info "Configuring sysctl..."
 sudo tee /etc/sysctl.d/99-gaming.conf > /dev/null <<EOF
 vm.max_map_count=2147483642
+kernel.split_lock_mitigate=0
 EOF
 sudo sysctl --system > /dev/null
 
