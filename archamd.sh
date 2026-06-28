@@ -96,8 +96,6 @@ sudo pacman -S --noconfirm \
     lib32-vulkan-radeon \
     vulkan-icd-loader \
     lib32-vulkan-icd-loader \
-    libva-mesa-driver \
-    mesa-vdpau \
     networkmanager
 
 # =============================================================================
@@ -482,7 +480,6 @@ EOF
 info "Writing amdgpu.conf..."
 sudo tee /etc/environment.d/amdgpu.conf > /dev/null <<'EOF'
 LIBVA_DRIVER_NAME=radeonsi
-VDPAU_DRIVER=radeonsi
 EOF
 
 # =============================================================================
@@ -590,6 +587,7 @@ paru -S --noconfirm \
     falcond-gui
 
 info "Füge User zur falcond-Gruppe hinzu..."
+sudo groupadd -f falcond
 sudo usermod -aG falcond "$USER"
 
 info "Aktiviere falcond..."
