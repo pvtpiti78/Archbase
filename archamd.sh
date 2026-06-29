@@ -534,7 +534,7 @@ read -rp "Auswahl [1-6]: " de_choice
 case "$de_choice" in
     1)
         info "Installiere KDE Plasma..."
-        bash "$SCRIPT_DIR/kde-setup.sh"
+        bash "$SCRIPT_DIR/kdeamd.sh"
         ;;
     2)
         info "Installiere GNOME..."
